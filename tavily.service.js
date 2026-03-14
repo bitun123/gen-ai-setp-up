@@ -1,14 +1,20 @@
 import { tavily } from "@tavily/core";
+import "dotenv/config"
+const tavly = tavily({
+    apiKey: process.env.TAVILY_API_KEY,
+})
 
-// Initialize tavily with API key
-const client = new tavily({
-  apiKey: process.env.TAVILY_API_KEY
-});
 
-export async function searchInternet(query) {
-  const response = await client.search(query, {
-    max_results: 5
-  });
-
-  return JSON.stringify(response.results);
+export async function searchInternet({ query }) {
+    const results = await tavly.search(query);
+   
+    // Extract only content text from results
+    const contentText = results.results
+        .map(result => result.content)
+        .filter(content => content)
+        .join('\n\n');
+    return contentText;
 }
+
+
+
