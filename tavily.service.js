@@ -8,7 +8,6 @@ const tavly = tavily({
 export async function searchInternet({ query }) {
     const results = await tavly.search(query);
    
-    // Extract only content text from results
     const contentText = results.results
         .map(result => result.content)
         .filter(content => content)
