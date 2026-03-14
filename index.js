@@ -3,6 +3,7 @@ import readline from "readline/promises";
 import { ChatMistralAI } from "@langchain/mistralai";
 import { HumanMessage, tool, createAgent } from "langchain";
 import { sendEmail } from "./mail.service.js";
+import { searchInternet } from "./tavily.service.js";
 import * as z from "zod";
 
 
@@ -20,6 +21,16 @@ const emailTool = tool(
     }
 )
 
+const tavilyTool = tool(
+    searchInternet,
+    {
+        name: "tavilySearch",
+        description: "A tool to search the internet for real-time information using Tavily. Use this to find current news, data, and information.",
+        schema: z.object({
+            query: z.string().describe("The search query to find information about"),
+        })
+    }
+);
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -33,7 +44,7 @@ const model = new ChatMistralAI({
 
 const agent  = createAgent({
     model,
-    tools:[emailTool]
+    tools:[emailTool,tavilyTool]
 })
 
 const messages = [];

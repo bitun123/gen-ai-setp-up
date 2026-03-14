@@ -12,7 +12,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@langchain/community": "^1.1.23",
+    "@langchain/core": "^1.1.32",
     "@langchain/mistralai": "^1.0.7",
+    "@tavily/core": "^0.7.2",
     "dotenv": "^17.3.1",
     "langchain": "^1.2.32",
     "nodemailer": "^8.0.2",
